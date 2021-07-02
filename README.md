@@ -46,3 +46,28 @@ app.run(debug=True).
 
 # Choose the interpreter 
 Set up virtual env and debug steps
+
+# Heroku get started
+
+Install the CLI -
+brew tap heroku/brew && brew install heroku
+
+Verify version -
+heroku --version
+
+Login command - 
+heroku login
+#heroku login -i 
+
+
+
+# Azure webapp [https://medium.com/@nikovrdoljak/deploy-your-flask-app-on-azure-in-3-easy-steps-b2fe388a589e]
+Create a web app
+Now we can create web app or App Service. On portal left navigation bar click “App Services” and then “Add”. Select “Web App” and click “Create”:
+
+Select appropriate pricing tier, but for demo purposes, Basic tier(B1) is the most suitable option.
+
+Click “Deployment center”, and select "Git”: set the git repo
+
+Go to “Application settings” and enter the following line in “Startup File” field:
+gunicorn --bind=0.0.0.0 --timeout 600 appstart:app
