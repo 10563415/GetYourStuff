@@ -18,14 +18,14 @@ pip freeze
 
 # Setup env variables 
 
-export FLASK_APP=flaskprojectstartpythonfile.py
+export FLASK_APP=appstart.py
 export FLASK_DEBUG=1
 
 # To debug with VSCode
 Run->Add configuration --> Add below :
 
 "env": {
-                "FLASK_APP": "start.py",
+                "FLASK_APP": "appstart.py",
                 "FLASK_ENV": "development",
                 "FLASK_DEBUG": "1"
             },

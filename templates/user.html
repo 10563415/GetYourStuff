@@ -1,1 +1,15 @@
 <h1>Hello, {{ name }}!</h1>
+
+{% if name %}
+    Hello, {{ name|capitalize }}!
+{% else %}
+    Hello, Stranger!
+{% endif %}
+
+
+{% import 'common.html' as macros %}
+    <ul>
+    {% for comment in comments %}
+    {{ macros.render_comment(comment) }}
+    {% endfor %}
+    </ul>
