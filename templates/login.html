@@ -40,8 +40,11 @@
 			<div class="form-group">
 				{{ form.submit(class="w3-btn w3-pink")}}
 			</div>
-
-
+			<span class="center">
+				<a href=" {{ url_for('reset_request') }}"> <small class="text-muted pink">Forget Password? </small></a>
+				<a  href=" {{ url_for('register') }}">
+				<small class="text-muted pink small-text">Create Account</small> </a>
+				</span>
 		</form>
 	</div>
 </div>

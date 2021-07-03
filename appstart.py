@@ -29,20 +29,20 @@ def user(name,comments):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    #if form.validate_on_submit():
-        #check_user = User.objects(email=form.email.data).first()
-        #if check_user and check_password_hash(check_user['password'], form.password.data):
-            #login_user(check_user)
-            #id = current_user.get_id()
-            #user_document=mongo.db.user.find_one({'_id':ObjectId(id)},{'_id':0,'role':1})
-            #if user_document['role']=='admin':
-             #   return redirect('/admin_')
-            #flash('You have been successfully logged in', 'success')
-            #next_page = request.args.get('next')
-            #return redirect(next_page) if next_page else redirect(url_for('main.home'))
-        #else:
-            #flash('Login Unsuccessful, Please check email and password', 'danger')
     return render_template('login.html', title='login', form=form)
+
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_request():
+        form = RequestResetForm()
+        return render_template('reset_request.html', form=form)
+
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    return render_template('register.html', title='register', form=form)
 
 
 class LoginForm(FlaskForm):
@@ -50,3 +50,37 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired()])
+    #recaptcha = RecaptchaField()
+    submit = SubmitField('Request Reset Password')
+
+    def validate_email(self, email):
+        #users = mongo.db.user
+        print(email.data)
+        #user = users.find_one({'email': email.data})
+        if user is None:
+            raise ValidationError('There is no account with that email. You must register first')
+
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=15)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    seller = BooleanField('Register as Seller')
+
+    submit = SubmitField('Sign Up')
+
+    def validate_username(self, username):
+        #users = mongo.db.user
+        user = users.find_one({'username': username.data})
+        if user:
+            raise ValidationError('That username is alreay taken. Please choose a different one')
+
+    def validate_email(self, email):
+        #users = mongo.db.user
+        user = users.find_one({'email': email.data})
+        if user:
+            raise ValidationError('That email is already taken. Please choose a different one.')
+
