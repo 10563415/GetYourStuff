@@ -1,40 +1,87 @@
+import os
+
+import email_validator
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 # from flask. import Moment
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, FileField, MultipleFileField, validators
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-import email_validator
+from wtforms import (BooleanField, FileField, IntegerField, MultipleFileField,
+                     PasswordField, StringField, SubmitField, TextAreaField,
+                     validators)
+from wtforms.validators import (DataRequired, Email, EqualTo, Length,
+                                ValidationError)
+from flask import abort
 
-import os
 SECRET_KEY = os.urandom(32)
 
+import requests
+from flask import (Blueprint, flash, redirect, render_template, request,
+                   send_from_directory, url_for)
+from flask_login import (LoginManager, current_user, login_required,
+                         login_user, logout_user)
+
+from flask import session
 
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 #moment = Moment(app)
 app.config['SECRET_KEY'] = SECRET_KEY
+app.secret_key = SECRET_KEY
 
-@app.route('/')
+# login_manager = LoginManager()
+# login_manager.login_view = 'login'
+# login_manager.login_message_category = 'info'
+# login_manager.init_app(app)
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
     form = LoginForm()
-    return render_template('login.html', title='login', form=form)
+    user_agent = request.headers.get('User-Agent')
+    if form.validate_on_submit():
+        
+        #######TODO: Insert function to check the token from fakeapi = if true redirect to search else login page with error
+        ###if old_name is not None and old_name != form.name.data:
+            ###flash('Looks like you have changed your name!')
+        session['email'] = form.username.data
+        return redirect(url_for('search'))
+    return render_template('login.html', title='login',form=form)
 
 
 @app.route('/user/<name>/<comments>')
 def user(name,comments):
     return render_template('user.html', name=name,comments=comments)
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    return render_template('login.html', title='login', form=form)
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    # if current_user.is_authenticated:
+    #     return redirect(url_for('home'))
+    #form = LoginForm()
+    email = session.get('email')
+    url = "https://fakestoreapi.com/auth/login"
+    req_body = {"username": "mor_2314","password": "83r5^"}
+    resp = requests.post(url, data = req_body)
+    #abort(404)
+    return render_template('search.html', title='search')
+
+
+def home(type):
+  #mongo.db.items.find_one_or_404({'Type': type.title()})  # just to return 404 error if there is not a single item with that thing
+  #items = mongo.db.items.find({'Type': type.title()})
+  global itemType
+  itemType = type  # so that same type of items are getched in filter results
+  #brands = ret_brands(type)
+  #categories = ret_categories('Men')
+  #types = mongo.db.items.distinct('Type')
+  return render_template('home.html')#, items=items, brands=brands, categories=categories, itemType=type.title(), types=types)
+
 
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
         form = RequestResetForm()
+        response_API = requests.get('https://www.askpython.com/')
+        response_API.status_code
         return render_template('reset_request.html', form=form)
 
 
@@ -46,7 +93,7 @@ def register():
 
 
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    username = StringField('User', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
