@@ -27,5 +27,5 @@ from flask_login import login_required, logout_user
 def logout():
     logout_user()
     flash('You have been logged out.')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('auth.login'))
 
