@@ -9,3 +9,10 @@ migrate = Migrate(app, db)
 @app.shell_context_processor
 def make_shell_context():
     return dict(db=db, User=User)
+
+
+from flask_login import login_required
+@app.route('/secret')
+@login_required
+def secret():
+    return 'Only authenticated users are allowed!'

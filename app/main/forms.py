@@ -4,11 +4,11 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from ..models import User
 
 
-class LoginForm(FlaskForm):
-    username = StringField('User', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember = BooleanField('Remember Me')
-    submit = SubmitField('Login')
+# class LoginForm(FlaskForm):
+#     username = StringField('User', validators=[DataRequired()])
+#     password = PasswordField('Password', validators=[DataRequired()])
+#     remember = BooleanField('Remember Me')
+#     submit = SubmitField('Login')
 
 class RequestResetForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
