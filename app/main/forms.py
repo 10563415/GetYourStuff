@@ -1,45 +1,50 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from ..models import User
+from wtforms import StringField, TextAreaField, BooleanField, SelectField,\
+    SubmitField
+from wtforms.validators import DataRequired, Length, Email, Regexp
+from wtforms import ValidationError
+from ..models import Role, User
 
 
-# class LoginForm(FlaskForm):
-#     username = StringField('User', validators=[DataRequired()])
-#     password = PasswordField('Password', validators=[DataRequired()])
-#     remember = BooleanField('Remember Me')
-#     submit = SubmitField('Login')
-
-class RequestResetForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired()])
-    #recaptcha = RecaptchaField()
-    submit = SubmitField('Request Reset Password')
-
-#     def validate_email(self, email):
-#         #users = mongo.db.user
-#         print(email.data)
-#         #user = users.find_one({'email': email.data})
-#         if user is None:
-#             raise ValidationError('There is no account with that email. You must register first')
+class NameForm(FlaskForm):
+    name = StringField('What is your name?', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 
-class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=15)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    seller = BooleanField('Register as Seller')
+class EditProfileForm(FlaskForm):
+    name = StringField('Real name', validators=[Length(0, 64)])
+    location = StringField('Location', validators=[Length(0, 64)])
+    about_me = TextAreaField('About me')
+    submit = SubmitField('Submit')
 
-    submit = SubmitField('Sign Up')
 
-    def validate_username(self, username):
-        #users = mongo.db.user
-        user = users.find_one({'username': username.data})
-        if user:
-            raise ValidationError('That username is alreay taken. Please choose a different one')
+class EditProfileAdminForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Length(1, 64),
+                                             Email()])
+    username = StringField('Username', validators=[
+        DataRequired(), Length(1, 64),
+        Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
+               'Usernames must have only letters, numbers, dots or '
+               'underscores')])
+    confirmed = BooleanField('Confirmed')
+    role = SelectField('Role', coerce=int)
+    name = StringField('Real name', validators=[Length(0, 64)])
+    location = StringField('Location', validators=[Length(0, 64)])
+    about_me = TextAreaField('About me')
+    submit = SubmitField('Submit')
 
-    def validate_email(self, email):
-        #users = mongo.db.user
-        user = users.find_one({'email': email.data})
-        if user:
-            raise ValidationError('That email is already taken. Please choose a different one.')
+    def __init__(self, user, *args, **kwargs):
+        super(EditProfileAdminForm, self).__init__(*args, **kwargs)
+        self.role.choices = [(role.id, role.name)
+                             for role in Role.query.order_by(Role.name).all()]
+        self.user = user
+
+    def validate_email(self, field):
+        if field.data != self.user.email and \
+                User.query.filter_by(email=field.data).first():
+            raise ValidationError('Email already registered.')
+
+    def validate_username(self, field):
+        if field.data != self.user.username and \
+                User.query.filter_by(username=field.data).first():
+            raise ValidationError('Username already in use.')
