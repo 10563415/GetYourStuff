@@ -15,8 +15,8 @@
 			{{ wtf.quick_form(form) }}
 				
 			<span class="center">
-				<a href=" {{ url_for('main.reset_request') }}"> <small class="text-muted pink">Forget Password? </small></a>
-				<a  href=" {{ url_for('main.register') }}">
+				<a href=" {{ url_for('auth.reset_password') }}"> <small class="text-muted pink">Forget Password? </small></a>
+				<a  href=" {{ url_for('auth.register') }}">
 				<small class="text-muted pink small-text">Create Account</small> </a>
 				</span>
 		</form>

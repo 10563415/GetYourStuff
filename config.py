@@ -7,11 +7,11 @@ class Config:
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in ['true', 'on', '1']
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    APP_MAIL_SUBJECT_PREFIX = '[App]'
-    APP_MAIL_SENDER = 'App Admin <app@example.com>'
-    APP_ADMIN = os.environ.get('APP_ADMIN')
+    MAIL_USERNAME = os.environ.get('10563415SA@gmail.com')
+    MAIL_PASSWORD = os.environ.get('Password@2')
+    APP_MAIL_SUBJECT_PREFIX = '[GetYourStuff]'
+    APP_MAIL_SENDER = '10563415SA@gmail.com'
+    APP_ADMIN = os.environ.get('APP_ADMIN') or '10563415SA@gmail.com'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod

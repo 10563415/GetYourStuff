@@ -34,26 +34,26 @@ def search():
     return render_template('search.html', title='search')
 
 
-@main.route('/reset_password', methods=['GET', 'POST'])
-def reset_request():
-        form = RequestResetForm()
-        response_API = requests.get('https://www.askpython.com/')
-        response_API.status_code
-        return render_template('reset_request.html', form=form)
+# @main.route('/reset_password', methods=['GET', 'POST'])
+# def reset_request():
+#         form = RequestResetForm()
+#         response_API = requests.get('https://www.askpython.com/')
+#         response_API.status_code
+#         return render_template('reset_request.html', form=form)
 
 
-@main.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegistrationForm()
-    if user is None:
-        user = User(username=form.name.data)
-        db.session.add(user)
-        db.session.commit()
-        session['known'] = False
-    else:
-        session['known'] = True
-    session['name'] = form.name.data
-    return render_template('register.html', title='register', form=form)
+# @main.route('/register', methods=['GET', 'POST'])
+# def register():
+#     form = RegistrationForm()
+#     if user is None:
+#         user = User(username=form.name.data)
+#         db.session.add(user)
+#         db.session.commit()
+#         session['known'] = False
+#     else:
+#         session['known'] = True
+#     session['name'] = form.name.data
+#     return render_template('register.html', title='register', form=form)
 
 @main.route('/user/<name>/<comments>')
 def user(name,comments):
