@@ -12,7 +12,7 @@ class Config:
     MAIL_PASSWORD = os.environ.get('dwckdclvrrkmynsj')
     APP_MAIL_SUBJECT_PREFIX = '[GetYourStuff]'
     APP_MAIL_SENDER = '10563415SA@gmail.com'
-    APP_ADMIN = os.environ.get('APP_ADMIN') or '10563415SA@gmail.com'
+    APP_ADMIN = os.environ.get('APP_ADMIN') or 'meghana.mohapatra93@gmail.com'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     '''

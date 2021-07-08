@@ -8,8 +8,11 @@ from datetime import datetime
 import hashlib
 
 class Permission:
-    MODERATE = 1
-    ADMIN = 2
+    FOLLOW = 1
+    COMMENT = 2
+    WRITE = 4
+    MODERATE = 8
+    ADMIN = 16
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -27,8 +30,10 @@ class Role(db.Model):
     @staticmethod
     def insert_roles():
         roles = {
-            'User': [],
-            'Administrator': [Permission.ADMIN],
+            'User': [Permission.WRITE],
+            'Moderator': [Permission.WRITE, Permission.MODERATE],
+            'Administrator': [Permission.WRITE, Permission.MODERATE,
+                              Permission.ADMIN],
         }
         default_role = 'User'
         for r in roles:
@@ -177,7 +182,9 @@ class User(UserMixin, db.Model):
             url=url, hash=hash, size=size, default=default, rating=rating)
 
     def __repr__(self):
-        return '<User %r %r>' % self.username % self.email 
+        return '<User %r>' % self.username
+
+
 class AnonymousUser(AnonymousUserMixin):
     def can(self, permissions):
         return False
