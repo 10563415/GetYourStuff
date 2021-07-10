@@ -5,6 +5,8 @@ from .forms import EditProfileForm, EditProfileAdminForm
 from .. import db
 from ..models import Role, User
 from ..decorators import admin_required
+from flask import json
+import os
 
 
 @main.route('/')
@@ -67,31 +69,7 @@ def edit_profile_admin(id):
 @main.route('/products', methods=['GET', 'POST'])
 @login_required
 def products():
-    items = (
-      {'$and': [
-          {'Category': 'one'},
-          {'$or':'brands'},
-          {'Price': {'$lte': 'maxPrice'}},
-          {'Discount': {'$gte': 'minDiscount'}}
-      ]
-      },{'$and': [
-          {'Category': 'one'},
-          {'$or':'brands'},
-          {'Price': {'$lte': 'maxPrice'}},
-          {'Discount': {'$gte': 'minDiscount'}}
-      ]
-      },
-      {'$and': [
-          {'Category': 'one'},
-          {'$or':'brands'},
-          {'Price': {'$lte': 'maxPrice'}},
-          {'Discount': {'$gte': 'minDiscount'}}
-      ]
-      },{'$and': [
-          {'Category': 'one'},
-          {'$or':'brands'},
-          {'Price': {'$lte': 'maxPrice'}},
-          {'Discount': {'$gte': 'minDiscount'}}
-      ]
-      })
-    return render_template('products.html', items = items)
+    products_json_path = os.getcwd() + "/app/static/products_data.json"
+    with open(products_json_path, 'r') as json_file:
+        data = json.load(json_file)
+    return render_template('products.html', items = data)

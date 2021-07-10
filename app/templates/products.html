@@ -10,17 +10,13 @@
   {% for item in items %}
   <div class="box">
     <a href="">
-            <img class="rounded article-image" width="220" height="280" src= "">
+            <img class="rounded article-image" width="220" height="280" src= "{{item["tag"]}}">
     </a>
     <h5><b>{{item["Brand"] }}</b></h5>
-            <small class="text-muted" id="des">{{item["Short Description"]}}</small><br>
-             <strong> Rs.{{item["Price"] }} </strong>
-            {% if item["Discount"] !=0 %}
-                <strike class="text-muted"> <small>Rs.{{item["Mrp"] }} </small></strike>  &nbsp;
-              <font  color="#FF4500" >  ({{item["Discount"]}}% OFF)</font>
-            {% endif %}
+            <small class="text-muted" id="des">{{item["title"]}}</small><br>
+             <strong> Rs.{{item["price"] }} </strong>
             <br><br>
-             <a class="w3-btn w3-pink" href="">Add to wishlist </a>
+             <a class="w3-btn w3-pink" href="">Add to cart </a>
   </div>
 {% endfor %}
 
