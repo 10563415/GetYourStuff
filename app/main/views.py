@@ -62,3 +62,36 @@ def edit_profile_admin(id):
     form.location.data = user.location
     form.about_me.data = user.about_me
     return render_template('edit_profile.html', form=form, user=user)
+
+
+@main.route('/products', methods=['GET', 'POST'])
+@login_required
+def products():
+    items = (
+      {'$and': [
+          {'Category': 'one'},
+          {'$or':'brands'},
+          {'Price': {'$lte': 'maxPrice'}},
+          {'Discount': {'$gte': 'minDiscount'}}
+      ]
+      },{'$and': [
+          {'Category': 'one'},
+          {'$or':'brands'},
+          {'Price': {'$lte': 'maxPrice'}},
+          {'Discount': {'$gte': 'minDiscount'}}
+      ]
+      },
+      {'$and': [
+          {'Category': 'one'},
+          {'$or':'brands'},
+          {'Price': {'$lte': 'maxPrice'}},
+          {'Discount': {'$gte': 'minDiscount'}}
+      ]
+      },{'$and': [
+          {'Category': 'one'},
+          {'$or':'brands'},
+          {'Price': {'$lte': 'maxPrice'}},
+          {'Discount': {'$gte': 'minDiscount'}}
+      ]
+      })
+    return render_template('products.html', items = items)

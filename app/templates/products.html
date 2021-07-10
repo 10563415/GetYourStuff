@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}GetYourStuff{% endblock %}
+{% block page_content %}
+
+<div class="page-header">
+    <h1>{% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Welcome to GetYourStuff ! Please Login.{% endif %}</h1>
+</div>
+
+<div class="filter">
+  {% for item in items %}
+  <div class="box">
+    <a href="">
+            <img class="rounded article-image" width="220" height="280" src= "">
+    </a>
+    <h5><b>{{item["Brand"] }}</b></h5>
+            <small class="text-muted" id="des">{{item["Short Description"]}}</small><br>
+             <strong> Rs.{{item["Price"] }} </strong>
+            {% if item["Discount"] !=0 %}
+                <strike class="text-muted"> <small>Rs.{{item["Mrp"] }} </small></strike>  &nbsp;
+              <font  color="#FF4500" >  ({{item["Discount"]}}% OFF)</font>
+            {% endif %}
+            <br><br>
+             <a class="w3-btn w3-pink" href="">Add to wishlist </a>
+  </div>
+{% endfor %}
+
+</div>
+
+{% endblock %}

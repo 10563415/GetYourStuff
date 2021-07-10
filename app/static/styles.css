@@ -6,3 +6,26 @@
     margin-left: 280px;
 }
 
+.box{
+    width:33%;
+    padding:20px;
+    float:left;
+  }
+
+@media (max-width: 900px) {
+        .box{
+            width:33%;
+            padding:20px;
+            float:none;
+          }
+}
+
+@media (max-width: 600px) {
+        .box{
+            width:100%;
+            padding:10px;
+            float:inherit;
+          }
+
+}
+
