@@ -11,6 +11,8 @@ import os
 
 @main.route('/')
 def index():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.products'))
     return render_template('index.html')
 
 
@@ -73,3 +75,26 @@ def products():
     with open(products_json_path, 'r') as json_file:
         data = json.load(json_file)
     return render_template('products.html', items = data)
+
+
+@main.route('/item/<item_id>', methods=['GET', 'POST'])
+@login_required
+def item(item_id):
+    products_json_path = os.getcwd() + "/app/static/products_data.json" 
+    with open(products_json_path, 'r') as json_file:
+        data = json.load(json_file)
+    product = object
+    for _product in data:
+        if _product["id"] == int(item_id):
+            product =  _product
+    return render_template('product.html', item = product)
+
+
+@main.route('/add_to_cart/<item_id>', methods=['GET', 'POST'])
+@login_required
+def add_to_cart(item_id):
+    products_json_path = os.getcwd() + "/app/static/products_data.json"
+    with open(products_json_path, 'r') as json_file:
+        data = json.load(json_file)
+    data = data[0]
+    return render_template('product.html', item = data)

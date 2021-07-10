@@ -9,7 +9,7 @@
 <div class="filter">
   {% for item in items %}
   <div class="box">
-    <a href="">
+    <a href="{{ url_for('main.item', item_id=item['id']) }}">
             <img class="rounded article-image" width="220" height="280" src= "{{item["tag"]}}">
     </a>
     <h5><b>{{item["Brand"] }}</b></h5>

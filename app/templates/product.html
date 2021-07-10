@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="coloumn1">
+            <div class="image">
+                 <img class="img-responsive" alt="Cinque Terre" id="image" height="520" width="520" src= "">
+             </div>
+    </div>
+    <div class="coloumn2">
+        <h2 class="font-weight-bold"> {{ item["title"] }} </h2>
+        <p class="font-weight-normal"><font>{{ item["description"] }}</font></p>
+        <hr>
+        <h3 class="font-weight-bold">
+            $.{{item["price"] }} 
+        </h3>
+        <form name="add_cart" method="post" >
+        <br>
+        <a href="{{url_for('main.add_to_cart',item_id=item['id'])}}"> <input type="button" value="Add to cart" class="btn-default"></a>
+
+         &nbsp;
+
+         <a href="{{url_for('main.products')}}"> <input type="button" value="Cancel" class="btn-default"></a>
+    </form>
+{% endblock content %}
