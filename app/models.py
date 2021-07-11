@@ -83,6 +83,9 @@ class User(UserMixin, db.Model):
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     avatar_hash = db.Column(db.String(32))
+    cart_id = db.Column(db.Integer)
+    item_count = db.Column(db.Integer)
+    carts = db.relationship('Cart', backref='User', lazy='dynamic') #TODO May create issue
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -193,3 +196,24 @@ class AnonymousUser(AnonymousUserMixin):
         return False
 
 login_manager.anonymous_user = AnonymousUser
+
+class Cart(db.Model):
+    __tablename__ = 'carts'
+    id = db.Column(db.Integer, primary_key=True)
+    cart_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    product_id = db.Column(db.Integer)
+    quantity = db.Column(db.Integer)
+    price = db.Column(db.Float)
+#    users = db.relationship('User', backref='cart', lazy='dynamic')
+    def __init__(self, _cart_id, _product_id,_quantity,_price):
+        self.cart_id = _cart_id
+        self.product_id = _product_id
+        self.quantity = _quantity
+        self.price = _price
+
+class Product:
+    def __init__(self, productId,quantity,price):
+        self.productId = productId
+        self.quantity = quantity
+        self.price = price
+
