@@ -204,13 +204,17 @@ class Cart(db.Model):
     product_id = db.Column(db.Integer)
     quantity = db.Column(db.Integer)
     price = db.Column(db.Float)
+    image = db.Column(db.String(64))
+    title = db.Column(db.String(64))
+
 #    users = db.relationship('User', backref='cart', lazy='dynamic')
-    def __init__(self, _cart_id, _product_id,_quantity,_price):
+    def __init__(self, _cart_id, _product_id,_quantity,_price,_image,_title):
         self.cart_id = _cart_id
         self.product_id = _product_id
         self.quantity = _quantity
         self.price = _price
-
+        self.image = _image
+        self.title = _title
 class Product:
     def __init__(self, productId,quantity,price):
         self.productId = productId

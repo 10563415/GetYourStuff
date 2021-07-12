@@ -117,7 +117,7 @@ def add_to_cart(item_id):
     #####_product1 = Product(product['id'], 1,product['price'])
 
     #Get all the products in the cart
-    _cart = Cart(current_user.id,int(item_id),1,product["price"])
+    _cart = Cart(current_user.id,int(item_id),1,product["price"],product["tag"],product["title"])
     #_cartProd = Cart.query.filter_by(cart_id=current_user.id, product_id=int(item_id)).all()
     _cartProd = Cart.query.filter_by(cart_id=current_user.id, product_id=int(item_id)).first()
 
@@ -152,6 +152,8 @@ def add_to_cart(item_id):
 ###3
     if _cartProd != None:
         _cartProd.quantity+=1
+        _cartProd.image = _cart.image
+        _cartProd.title = _cart.title
         db.session.add(_cartProd)
         db.session.commit()
     else:
@@ -159,11 +161,9 @@ def add_to_cart(item_id):
         db.session.commit()
 
 
-    flash('The cart has been updated.')
+    flash('The product has been updated in the cart.')
 
-
-
-    return render_template('product.html', item = "")
+    return redirect(url_for('.products'))
 
 
 #TODO Remove common code used to read data from json and replace it here
@@ -180,17 +180,23 @@ def get_request(data,uri):
 
 def post_request(uri,data):
     #make a POST request
-    
     _data = json.jsonify(data)
     res = requests.post(uri, json=_data)
     print('response from server:',res.text)
     response = res.json()
     return response
 
-# class Cart:
-#     def __init__(self, userid, product):
-#         self.userid = userid
-#         self.date = date.today()
-#         self.products = list(product)
 
 
+@main.route('/get_cart', methods=['GET'])
+@login_required
+def get_cart():
+    _cart = Cart.query.filter_by(cart_id=current_user.id).all()
+    _total = 0
+    _totalcost = 0
+    if _cart is not None:
+        for _row in _cart:
+            _total+=_row.quantity
+            _totalcost = _totalcost + (_row.quantity*_row.price)
+
+    return render_template('cart.html',items = _cart,total = _total, totalcost = _totalcost)
