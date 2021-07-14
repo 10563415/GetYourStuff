@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}GetYourStuff{% endblock %}
+{% block page_content %}
+
+<div class="page-header">
+    <h1>{% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Welcome to GetYourStuff ! Please Login.{% endif %}</h1>
+</div>
+
+<div class="filter">
+  {% for item in items %}
+  <div class="box">
+    <a href="{{ url_for('main.item', item_id=item['id']) }}">
+            <img class="rounded article-image" width="220" height="280" src= "{{item["tag"]}}">
+    </a>
+    <h5><b>{{item["Brand"] }}</b></h5>
+            <small class="text-muted" id="des">{{item["title"]}}</small><br>
+             <strong> Rs.{{item["price"] }} </strong>
+            <br><br>
+             <a class="w3-btn w3-pink" href="">Add to cart </a>
+  </div>
+{% endfor %}
+
+</div>
+
+{% endblock %}
