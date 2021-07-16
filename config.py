@@ -11,9 +11,9 @@ class Config:
     MAIL_USE_TLS = os.environ.get('MAIL_USE_SSL', 'True') in ['True', 'on', '1']
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME','10563415SA@gmail.com')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD','dwckdclvrrkmynsj')
-    APP_MAIL_SUBJECT_PREFIX = '[GetYourStuff]'
+    APP_MAIL_SUBJECT_PREFIX = '[BuyYourStuff]'
     APP_MAIL_SENDER = os.environ.get('APP_MAIL_SENDER','10563415SA@gmail.com')
-    APP_ADMIN = os.environ.get('APP_ADMIN') or 'meghana.mohapatra93@gmail.com'
+    APP_ADMIN = os.environ.get('APP_ADMIN') or '10563415SA@gmail.com'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 

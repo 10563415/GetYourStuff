@@ -1,4 +1,4 @@
-# GetYourStuff
+# BuyYourStuff
 
 # Setup the virtual env with below commands 
 python -m venv env
