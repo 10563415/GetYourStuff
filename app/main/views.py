@@ -10,7 +10,7 @@ from flask import json
 import os
 import requests
 from datetime import date
-from flask import session
+from flask import session, request
 
 
 @main.route('/')
@@ -150,6 +150,8 @@ def add_to_cart(item_id):
     # #     db.session.commit()
 
 ###3
+
+#if the cart is not empty add the new prod else add the newly made cart object to the database
     if _cartProd != None:
         _cartProd.quantity+=1
         _cartProd.image = _cart.image
@@ -200,3 +202,31 @@ def get_cart():
             _totalcost = _totalcost + (_row.quantity*_row.price)
 
     return render_template('cart.html',items = _cart,total = _total, totalcost = _totalcost)
+
+
+@main.route('/update_cart/<item_id>/<item_attr>', methods=['POST'])
+@login_required
+def update_cart(item_id,item_attr):
+    _cartProd = Cart.query.filter_by(cart_id=current_user.id, product_id=int(item_id)).first()
+
+    if _cartProd != None:
+        _cartProd.quantity=int(item_attr)
+        if('si' in request.form):
+            _cartProd.quantity=int(request.form['si'])
+        db.session.add(_cartProd)
+        db.session.commit()
+
+    return redirect(url_for('main.get_cart'))
+
+
+@main.route('/remove_from_cart/<item_id>', methods=['GET'])
+@login_required
+def remove_from_cart(item_id):
+    _cartProd = Cart.query.filter_by(cart_id=current_user.id, product_id=int(item_id)).first()
+
+    if _cartProd != None:
+        Cart.query.filter_by(cart_id=current_user.id, product_id=int(item_id)).delete()
+        #db.session.add(_cartProd)
+        db.session.commit()
+
+    return redirect(url_for('main.get_cart'))
