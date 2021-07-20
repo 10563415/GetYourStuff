@@ -86,6 +86,7 @@ class User(UserMixin, db.Model):
     cart_id = db.Column(db.Integer)
     item_count = db.Column(db.Integer)
     carts = db.relationship('Cart', backref='User', lazy='dynamic') #TODO May create issue
+    orders = db.relationship('Order', backref='User', lazy='dynamic') #TODO May create issue
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -221,3 +222,39 @@ class Product:
         self.quantity = quantity
         self.price = price
 
+
+class Order(db.Model):
+    __tablename__ = 'orders'
+    order_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_name = db.Column(db.String(64))
+    address_first = db.Column(db.String(64))
+    address_last = db.Column(db.String(64))
+    address_zipcode = db.Column(db.String(64))
+    address_city = db.Column(db.String(64))
+    address_state = db.Column(db.String(64))
+    order_cost = db.Column(db.Float)
+    item_count = db.Column(db.Integer)
+    order_status = db.Column(db.String(64))
+    payment_status = db.Column(db.String(64))
+    #users = db.relationship('Order', backref='User', lazy='dynamic') #TODO May create issue
+
+    # def __init__(self, **kwargs):
+    #     super(Order, self).__init__(**kwargs)
+
+    def __init__(self, user_id,user_name,address_first,address_last,address_zipcode,address_city,address_state,order_cost,item_count,order_status,payment_status):
+        #self.order_id = order_id
+        self.user_id = user_id
+        self.user_name = user_name
+        self.address_first = address_first
+        self.address_last = address_last
+        self.address_zipcode = address_zipcode
+        self.address_city = address_city
+        self.address_state = address_state
+        self.order_cost = order_cost
+        self.item_count = item_count
+        self.order_status = order_status
+        self.payment_status = payment_status
+
+    def __repr__(self):
+        return '<Order %r>' % self.order_id

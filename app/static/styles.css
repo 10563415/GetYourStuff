@@ -34,6 +34,63 @@
     font-size: xx-large;
   }
 
+  .cart-items{
+    width:70%;
+    float:left;
+    padding-left:10px;
+    padding-right:10px;
+  }
+  
+  .cart-payment{
+    width:30%;
+    float:right;
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .box-1{
+    width:80%;
+    float:left;
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: ridge;
+    border-width: 1px;
+    padding: 5px;
+  }
+  
+  .cart-left{
+    float:left;
+  }
+  
+  .cart-image{
+    float:left;
+    padding-right: 10px;
+  }
+  
+  .cart-right{
+    float: center;
+    height: 20px;
+    clear:right;
+    }
+  
+  
+    .checkout-left{
+      width:60%;
+      float:left;
+      padding-left:10px;
+      padding-right:10px;
+    }
+    
+    .checkout-right{
+      width:40%;
+      float:right;
+      padding-left:10px;
+      padding-right:10px;
+    }
+
 
 @media (max-width: 900px) {
         .box{
@@ -54,6 +111,7 @@
             float:left;
             padding:10px;
           }
+
 
 }
 
@@ -85,48 +143,28 @@
             width:100%;
             float:left;
           }
+          .col-xs-4{
+            width:100%;
+            float:left;
+          }
+          .checkout-left{
+            width:100%;
+            float:left;
+          }
+          .checkout-right{
+            width:100%;
+            float:left;
+          }
+          .checkout-payment{
+            width:100%;
+            float:left;
+          }
+          .box-1{
+            width:100%;
+            float:left;
+          }
+
 }
 
 
 
-.cart-items{
-  width:70%;
-  float:left;
-  padding-left:10px;
-  padding-right:10px;
-}
-
-.cart-payment{
-  width:30%;
-  float:right;
-  padding-left:10px;
-  padding-right:10px;
-}
-
-.box-1{
-  width:80%;
-  float:left;
-  display: block;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  margin-left: auto;
-  margin-right: auto;
-  border-style: ridge;
-  border-width: 1px;
-  padding: 5px;
-}
-
-.cart-left{
-  float:left;
-}
-
-.cart-image{
-  float:left;
-  padding-right: 10px;
-}
-
-.cart-right{
-  float: center;
-  height: 20px;
-  clear:right;
-  }

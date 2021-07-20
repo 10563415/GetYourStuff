@@ -38,17 +38,17 @@
         {% endfor %}
   </div>
   <br>
-      
+  {% if total != 0 %}
   <div class="cart-payment">
-    <h2>Cart Summary</h2>
+    <h3>Cart Summary</h3>
   </br>
     <h4>Total Items:  {{total}}</h4>
     <h4>Total Price:  {{totalcost}}</h4>
   </br>
-    <button type="button" class="btn btn-primary">Place Order</button>
+    <a class="btn btn-primary btn-block" href="{{url_for('main.checkout',count=total,cost=totalcost)}}">Checkout</a>
   </div>
+  {% endif %}
 </div>
-
 
 
 {% endblock %}

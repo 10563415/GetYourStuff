@@ -68,6 +68,7 @@ def register():
     return render_template('auth/register.html', form=form)
 
 
+#TODO: Add the rule to update role by cheking the email id as admin
 @auth.route('/confirm/<token>')
 @login_required
 def confirm(token):
@@ -80,7 +81,7 @@ def confirm(token):
         flash('The confirmation link is invalid or has expired.')
     return redirect(url_for('main.index'))
 
-
+#TODO: Add the rule to update role by cheking the email id as admin
 @auth.route('/confirm')
 @login_required
 def resend_confirmation():

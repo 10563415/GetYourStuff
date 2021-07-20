@@ -4,7 +4,7 @@ from werkzeug.wrappers import response
 from . import main
 from .forms import EditProfileForm, EditProfileAdminForm
 from .. import db
-from ..models import Role, User, Cart, Product
+from ..models import Role, User, Cart, Product, Order
 from ..decorators import admin_required
 from flask import json
 import os
@@ -121,36 +121,6 @@ def add_to_cart(item_id):
     #_cartProd = Cart.query.filter_by(cart_id=current_user.id, product_id=int(item_id)).all()
     _cartProd = Cart.query.filter_by(cart_id=current_user.id, product_id=int(item_id)).first()
 
-    # ###1
-    # if _cartProd != []:
-    #     if any(_cartProd) == _cart:
-    #         for prod in _cartProd:
-    #             if prod.product_id == int(item_id):
-    #                 prod.quantity+=1
-    #                 db.session.add(prod)
-    #                 db.session.commit()
-    #     else:
-    #         db.session.add(_cart)
-    #         db.session.commit()
-
-    # # ###2
-    # # if _cartProd != []:
-    # #     for prod in _cartProd:
-    # #         if prod.product_id == int(item_id):
-    # #             prod.quantity+=1
-    # #             db.session.add(prod)
-    # #             db.session.commit()
-    # #             break
-    # #         else:
-    # #             db.session.add(_cart)
-    # #             db.session.commit()
-    # #             break
-    # # else:
-    # #     db.session.add(_cart)
-    # #     db.session.commit()
-
-###3
-
 #if the cart is not empty add the new prod else add the newly made cart object to the database
     if _cartProd != None:
         _cartProd.quantity+=1
@@ -230,3 +200,85 @@ def remove_from_cart(item_id):
         db.session.commit()
 
     return redirect(url_for('main.get_cart'))
+
+
+@main.route('/checkout/<count>/<cost>', methods=['GET'])
+@login_required
+def checkout(count,cost):
+    return render_template('checkout.html',count = count, totalcost = cost)
+
+
+@main.route('/processorder/<int:count>/<float:totalcost>', methods=['POST'])
+@login_required
+def processorder(count,totalcost):
+
+    if('inputname' in request.form):
+        _inputname=request.form['inputname']
+
+    if('inputAddress1' in request.form):
+        _inputAddress1=request.form['inputAddress1']
+
+    if('inputAddress2' in request.form):
+        _inputAddress2=request.form['inputAddress2']
+
+    if('inputZip' in request.form):
+        _inputZip=request.form['inputZip']
+
+    if('inputCity' in request.form):
+        _inputCity=request.form['inputCity']
+
+    if('inputState' in request.form):
+        _inputState=request.form['inputState']
+
+    if('inputcardnumber' in request.form):
+        _inputcardnumber=request.form['inputcardnumber']
+
+    if('inputcardname' in request.form):
+        _inputcardname=request.form['inputcardname']
+
+    if('inputcardexpiry' in request.form):
+        _inputcardexpiry=request.form['inputcardexpiry']
+
+    _order = Order(current_user.id, _inputname,_inputAddress1,_inputAddress2,_inputZip,_inputCity,_inputState,totalcost,count,"Placed","Paid")
+ 
+    if _order is not None:
+        db.session.add(_order)
+        db.session.commit()
+
+#TODO: Make strip call for payment and if processed delete cart row
+    # # if _payment != None:
+    # #     Cart.query.filter_by(cart_id=current_user.id).delete()
+    # #     db.session.commit()
+
+    flash('Order Placed Successfully.')
+    return redirect(url_for('main.get_orders'))
+
+
+@main.route('/get_orders', methods=['GET'])
+@login_required
+def get_orders():
+    count = 0
+    _isadmin = False
+    _orders = None
+
+    if current_user.is_administrator():
+        _isadmin = True
+        _orders = Order.query.all()    
+
+    else:
+        _orders = Order.query.filter_by(user_id=current_user.id).all()    
+
+
+    if _orders is not None:
+        for o in _orders:
+            count += 1
+
+
+    return render_template('orders.html',count = count,items =_orders,isadmin=_isadmin)
+
+
+
+@main.route('/approve_order/<order_id>', methods=['GET'])
+@login_required
+def approve_order(order_id):
+    return redirect(url_for('main.get_orders'))
