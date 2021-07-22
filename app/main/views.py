@@ -1,3 +1,4 @@
+from operator import concat
 from flask import render_template, redirect, url_for, abort, flash
 from flask_login import login_required, current_user
 from werkzeug.wrappers import response
@@ -11,6 +12,9 @@ import os
 import requests
 from datetime import date
 from flask import session, request
+import stripe
+from urllib.request import urlopen 
+from flask import current_app
 
 
 @main.route('/')
@@ -241,17 +245,49 @@ def processorder(count,totalcost):
 
     _order = Order(current_user.id, _inputname,_inputAddress1,_inputAddress2,_inputZip,_inputCity,_inputState,totalcost,count,"Placed","Paid")
  
-    if _order is not None:
-        db.session.add(_order)
-        db.session.commit()
+    _cart = Cart.query.filter_by(cart_id=current_user.id).all()
 
-#TODO: Make strip call for payment and if processed delete cart row
-    # # if _payment != None:
-    # #     Cart.query.filter_by(cart_id=current_user.id).delete()
-    # #     db.session.commit()
+    stripe.api_key = current_app.config['STRIPE_KEY']
 
-    flash('Order Placed Successfully.')
-    return redirect(url_for('main.get_orders'))
+    _items = []
+    if _cart is not None:
+        for _row in _cart:
+            _url = concat(current_app.config['FAKE_API'], str(_row.product_id))
+            _resp=requests.get(_url, params=None) 
+            if _resp.status_code == 200:
+                _json_resp = json.loads(_resp.text)
+
+            _images = []
+            _images.append(_json_resp['image'])
+            _item = {
+                    'price_data': {
+                        'currency': 'eur',
+                        'unit_amount': int(_row.price)*100,
+                        'product_data': {
+                            'name': _row.title,
+                            'images': _images ,
+                        },
+                    },
+                    'quantity': _row.quantity,
+                }
+            _items.append(_item)
+
+    checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=_items,
+            mode='payment',
+            success_url= current_app.config['DOMAIN'] + '/get_orders',
+            cancel_url=current_app.config['DOMAIN']+ '/cancel',
+        )
+
+##    if checkout_session['payment_status'] == 'paid':
+    db.session.add(_order)
+    db.session.commit()
+
+    Cart.query.filter_by(cart_id=current_user.id).delete()
+    db.session.commit()
+
+    return redirect(checkout_session.url, code=303)
 
 
 @main.route('/get_orders', methods=['GET'])
@@ -276,6 +312,11 @@ def get_orders():
 
     return render_template('orders.html',count = count,items =_orders,isadmin=_isadmin)
 
+
+@main.route('/cancel', methods=['GET'])
+@login_required
+def cancel():
+    return render_template('cancel.html')
 
 
 @main.route('/approve_order/<order_id>', methods=['GET'])
