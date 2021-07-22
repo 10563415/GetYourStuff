@@ -3,7 +3,8 @@
 {% block page_content %}
 
 <div class="page-header">
-    <h1>{% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Welcome to BuyYourStuff ! Please Login.{% endif %}</h1>
+    <h1>{% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Welcome to BuyYourStuff ! Please Login.{% endif %}  {% if current_user.is_administrator() %} - Admin {%endif%}
+    </h1>
 </div>
 
 <div class="filter">
@@ -14,9 +15,9 @@
     </a>
     <h5><b>{{item["Brand"] }}</b></h5>
             <small class="text-muted" id="des">{{item["title"]}}</small><br>
-             <strong> Rs.{{item["price"] }} </strong>
+             <strong> € {{item["price"] }} </strong>
             <br><br>
-             <a class="w3-btn w3-pink" href="">Add to cart </a>
+             <a class="w3-btn w3-pink" href="{{url_for('main.add_to_cart',item_id=item['id'])}}">Add to cart </a>
   </div>
 {% endfor %}
 

@@ -2,15 +2,15 @@
 {% block content %}
     <div class="coloumn1">
             <div class="image">
-                 <img class="img-responsive" alt="Cinque Terre" id="image" height="520" width="520" src= "">
+                 <img class="img-responsive" alt="Cinque Terre" id="image" height="450" width="450" src= {{item["image"]}}>
              </div>
     </div>
     <div class="coloumn2">
-        <h2 class="font-weight-bold"> {{ item["title"] }} </h2>
+        <h3 class="font-weight-bold"> {{ item["title"] }} </h3>
         <p class="font-weight-normal"><font>{{ item["description"] }}</font></p>
         <hr>
         <h3 class="font-weight-bold">
-            $.{{item["price"] }} 
+            € {{item["price"] }} 
         </h3>
         <form name="add_cart" method="post" >
         <br>

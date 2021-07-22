@@ -29,8 +29,8 @@
         </select>
       </form>
 
-        <b> <h5>Price: {{ item["price"] }}</h5></b>
-        <b> <h5>Total: {{ item["price"]}}  *  {{ item["quantity"] }}</h5></b>
+        <b> <h5>Price: € {{ item["price"] }}</h5></b>
+        <b> <h5>Total: € {{ item["price"]}}  *  {{ item["quantity"] }}</h5></b>
 
         <b><a href=" {{url_for('main.remove_from_cart',item_id=item['product_id'])}}">Remove</a></b>
       </div>
@@ -43,7 +43,7 @@
     <h3>Cart Summary</h3>
   </br>
     <h4>Total Items:  {{total}}</h4>
-    <h4>Total Price:  {{totalcost}}</h4>
+    <h4>Total Price:  {{totalcost}} €</h4>
   </br>
     <a class="btn btn-primary btn-block" href="{{url_for('main.checkout',count=total,cost=totalcost)}}">Checkout</a>
   </div>

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+
+  <div class="page-header">
+    <h3>
+      Payment not processed. Forgot to add something to your cart?
+    </h3>
+  </div>
+
+  <h3>You can check other products <a href=" {{url_for('main.products')}}">here.</a></h3>
+
+{% endblock %}

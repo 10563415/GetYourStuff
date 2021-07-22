@@ -48,7 +48,7 @@
         </div>  
     </div>
   </div>
-    <div class="checkout-payment, box-1"> 
+    <!-- <div class="checkout-payment, box-1"> 
 
       <h3>Enter Payment Details</h3>
     
@@ -69,7 +69,7 @@
         </form>    
       </div> 
     
-    </div>
+    </div> -->
 
 </div>
 <div class="checkout-right">
@@ -87,3 +87,10 @@
 </div>
 
 {% endblock %}
+
+{% block scripts %}
+
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script>
+
+{%endblock%}
