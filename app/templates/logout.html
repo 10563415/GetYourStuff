@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+
+  <div class="page-header">
+    <h3>
+      Logged out successfully !
+    </h3>
+  </div>
+
+  <h3>Return to login page <a href=" {{url_for('auth.login')}}">here.</a></h3>
+
+{% endblock %}

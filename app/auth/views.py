@@ -6,6 +6,7 @@ from ..models import User
 from ..email import send_email
 from .forms import LoginForm, RegistrationForm, ChangePasswordForm,\
     PasswordResetRequestForm, PasswordResetForm, ChangeEmailForm
+import os
 
 
 @auth.before_app_request
@@ -29,6 +30,8 @@ def unconfirmed():
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    photo_path = os.getcwd() + '/static/images/login.jpeg'
+
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     if form.validate_on_submit():
@@ -40,7 +43,7 @@ def login():
                 next = url_for('main.products')
             return redirect(next)
         flash('Invalid email or password.')
-    return render_template('auth/login.html', form=form)
+    return render_template('auth/login.html', form=form,image=photo_path )
 
 
 @auth.route('/logout')
@@ -48,7 +51,7 @@ def login():
 def logout():
     logout_user()
     flash('You have been logged out.')
-    return redirect(url_for('main.index'))
+    return render_template('logout.html')
 
 
 @auth.route('/register', methods=['GET', 'POST'])

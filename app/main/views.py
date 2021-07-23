@@ -19,9 +19,10 @@ from flask import current_app
 
 @main.route('/')
 def index():
+    photo_path = os.getcwd() + '/static/images/photo-1.jpeg'
     if current_user.is_authenticated:
         return redirect(url_for('main.products'))
-    return render_template('index.html')
+    return render_template('index.html',image=photo_path)
 
 
 @main.route('/user/<username>')
@@ -107,8 +108,6 @@ def add_to_cart(item_id):
         db.session.add(current_user)
         db.session.commit()
     
-    #add_to_cart_uri = "https://fakestoreapi.com/carts/" + str(current_user.id)
-
     products_json_path = os.getcwd() + "/app/static/products_data.json" 
     with open(products_json_path, 'r') as json_file:
         data = json.load(json_file)
@@ -117,8 +116,7 @@ def add_to_cart(item_id):
         if _product["id"] == int(item_id):
             product =  _product
             break
-    
-    #####_product1 = Product(product['id'], 1,product['price'])
+
 
     #Get all the products in the cart
     _cart = Cart(current_user.id,int(item_id),1,product["price"],product["tag"],product["title"])
@@ -292,6 +290,7 @@ def processorder(count,totalcost):
 
 @main.route('/get_orders', methods=['GET'])
 @login_required
+# @admin_required
 def get_orders():
     count = 0
     _isadmin = False

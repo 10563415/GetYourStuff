@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import validators
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from ..models import User
@@ -8,7 +9,12 @@ from ..models import User
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
                                              Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password',[
+        validators.Regexp('^\w+$', message="Password must contain only letters, numbers or underscore"),
+        validators.Length(min=5, max=25, message="Username must be betwen 5 & 25 characters"),
+        validators.Required()
+
+    ])
     remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Log In')
 
@@ -21,8 +27,10 @@ class RegistrationForm(FlaskForm):
         Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
                'Usernames must have only letters, numbers, dots or '
                'underscores')])
+
     password = PasswordField('Password', validators=[
-        DataRequired(), EqualTo('password2', message='Passwords must match.')])
+        DataRequired(), EqualTo('password2', message='Passwords must match.'),Regexp('^\w+$',0, message='Password must contain only letters, numbers or underscore'),Length(min=5, max=25, message="Username must be betwen 5 & 25 characters")])
+
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
     submit = SubmitField('Register')
 
@@ -38,7 +46,7 @@ class RegistrationForm(FlaskForm):
 class ChangePasswordForm(FlaskForm):
     old_password = PasswordField('Old password', validators=[DataRequired()])
     password = PasswordField('New password', validators=[
-        DataRequired(), EqualTo('password2', message='Passwords must match.')])
+        DataRequired(), EqualTo('password2', message='Passwords must match.'),Regexp('^\w+$',0, message='Password must contain only letters, numbers or underscore'),Length(min=5, max=25, message="Username must be betwen 5 & 25 characters")])
     password2 = PasswordField('Confirm new password',
                               validators=[DataRequired()])
     submit = SubmitField('Update Password')
@@ -52,7 +60,7 @@ class PasswordResetRequestForm(FlaskForm):
 
 class PasswordResetForm(FlaskForm):
     password = PasswordField('New Password', validators=[
-        DataRequired(), EqualTo('password2', message='Passwords must match')])
+        DataRequired(), EqualTo('password2', message='Passwords must match.'),Regexp('^\w+$',0, message='Password must contain only letters, numbers or underscore'),Length(min=5, max=25, message="Username must be betwen 5 & 25 characters")])
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
     submit = SubmitField('Reset Password')
 

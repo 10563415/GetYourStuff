@@ -2,14 +2,15 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
-<div class="container">
+<!-- <div class="backgroundlogin" > -->
+<div class="container"  >
 	{% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         {{ message }}
     </div>
     {% endfor %}
-	<div class="middle fifty-box" style="max-width: 50%;">
+	<div class="login-area">
 		<form method="Post" action="">
 			{{ form.hidden_tag()  }}
 			{{ wtf.quick_form(form) }}
@@ -22,5 +23,5 @@
 		</form>
 	</div>
 </div>
-
+<!-- </div> -->
 {% endblock content %}

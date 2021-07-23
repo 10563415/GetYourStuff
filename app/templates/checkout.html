@@ -8,7 +8,7 @@
   </div>
 
 <div class="container">
-  <form name="processorder" action="{{ url_for('main.processorder', count=count, totalcost=totalcost) }}" method="post">
+  <form name="processorder" action="{{ url_for('main.processorder', count=count, totalcost=totalcost) }}" onsubmit="return validateForm()" method="post">
     <div>
 <div class="checkout-left">
   <div class="checkout-payment, box-1"> 
@@ -16,33 +16,33 @@
     <div>
         <div class="form-group">
           <label for="inputname">Name *</label>
-          <input type="text" class="form-control form-control-large" name="inputname" id="inputname" placeholder="Enter name">
+          <input type="text" class="form-control form-control-large" maxlength="30" name="inputname" id="inputname" placeholder="Enter name">
         </div>
         <div class="form-group">
           <label for="inputAddress1">Street address 1 *</label>
-          <input type="text" class="form-control form-control-large" name="inputAddress1" id="inputAddress1" placeholder="Enter address">
+          <input type="text" class="form-control form-control-large" maxlength="50" name="inputAddress1" id="inputAddress1" placeholder="Enter address">
         </div>
         <div class="form-group">
           <label for="inputAddress2">Street address 2</label>
-          <input type="text" class="form-control form-control-large" name="inputAddress2" id="inputAddress2" placeholder="Enter address">
+          <input type="text" class="form-control form-control-large" maxlength="50" name="inputAddress2" id="inputAddress2" placeholder="Enter address">
         </div>
         <div class="row">
           <div class="col-xs-4">
             <div class="form-group">
               <label for="inputZip">ZIP Code *</label>
-              <input type="text" class="form-control form-control-small" name="inputZip" id="inputZip" placeholder="Enter zip">
+              <input type="text" class="form-control form-control-small" maxlength="7" name="inputZip" id="inputZip" placeholder="Enter zip">
             </div>
           </div>
           <div class="col-xs-4">
             <div class="form-group">
               <label for="inputCity">City *</label>
-              <input type="text" class="form-control" name="inputCity" id="inputCity" placeholder="Enter city">
+              <input type="text" class="form-control" maxlength="15" name="inputCity" id="inputCity" placeholder="Enter city">
             </div>
           </div>
           <div class="col-xs-4">
             <div class="form-group">
               <label for="inputState">State *</label>
-              <input type="text" class="form-control" name="inputState" id="inputState" placeholder="Enter state">
+              <input type="text" class="form-control" maxlength="15" name="inputState" id="inputState" placeholder="Enter state">
             </div>
           </div>
         </div>  
@@ -92,5 +92,65 @@
 
 <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
 <script src="https://js.stripe.com/v3/"></script>
+
+<script>
+
+const required = ["inputname", "inputAddress1","inputZip","inputCity","inputState"];
+
+  function validateForm() {
+    
+    let nametxt = document.forms["processorder"]["inputname"].value;
+
+    if (nametxt.length === 0 && required.includes(nametxt))
+    {
+      debugger
+      alert("Name cannot be empty.");
+      return false;
+    }
+
+     var regex = /^\w{1}[a-zA-Z\s]{4,29}/
+    
+     if(regex.test(nametxt) == false){
+       debugger
+       alert("Name must have 4 characters atleast. It can have alphabets and spaces. Remove spaces from beginning if any.");
+       return false;
+     }
+
+     var regex = /[!@<>%\$"#+]+/
+
+     if(regex.test(nametxt) == true){
+       debugger
+       alert("Special characters not allowed in the name field.");
+       return false;
+     }
+
+
+    let inputAddress1 = document.forms["processorder"]["inputAddress1"].value;
+    var regex = /^\w{1}[\w\#\,\s\-\.\(\)]{4,49}/
+    if(regex.test(inputAddress1) == false){
+      alert("Address must not be empty or more than 50 characters. It shouldn't contain @/\\+%! ");
+      return false;
+    }
+
+    let inputZip = document.forms["processorder"]["inputZip"].value;
+    var regex = /^[a-zA-Z0-9]{5,7}/
+    if(regex.test(inputZip) == false){
+      alert("Zipcode must be 5-7 in length alphanumeric only.");
+      return false;
+    }
+
+    let inputCity = document.forms["processorder"]["inputCity"].value;
+    if (inputCity == "") {
+      alert("City must be filled out");
+      return false;
+    }
+
+    let inputState = document.forms["processorder"]["inputState"].value;
+    if (inputState == "") {
+      alert("State must be filled out");
+      return false;
+    }
+  }
+  </script>
 
 {%endblock%}
