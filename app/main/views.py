@@ -31,6 +31,19 @@ def home():
         return redirect(url_for('main.products'))
     return render_template('index.html',image=photo_path)
 
+@main.route('/about')
+def about():
+    return render_template('about.html')
+
+
+@main.route('/contact')
+def contact():
+    phone_icon =  '/static/phone.svg'
+    email_icon = '/static/email.png'
+
+    return render_template('contact.html',phone_icon= phone_icon,email_icon=email_icon)
+
+
 @main.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()

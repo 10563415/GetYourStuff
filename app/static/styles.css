@@ -95,6 +95,13 @@ max-width: 50%;
 }
 
 
+.bigbox{
+  width:50%;
+  padding:20px;
+  float:left;
+}
+
+
 .carousel-inner > .item > img {
   display: block;
   height: 600px;
@@ -149,6 +156,8 @@ max-width: 50%;
   width:80%;
 }
 
+
+
 }
 
 @media (max-width: 600px) {
@@ -201,6 +210,11 @@ max-width: 50%;
           }
           .login-area{
             width:100%;
+          }
+          .bigbox{
+            width:100%;
+            padding:10px;
+            float:inherit;
           }
 
 }
