@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}BuyYourStuff{% endblock %}
+{% block title %}BuyYourStuffHere{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-    <h1>{% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Welcome to BuyYourStuff ! Please login to start shopping.{% endif %}</h1>
+    <h1>{% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Welcome to BuyYourStuffHere ! Please login to start shopping.{% endif %}</h1>
 </div>
 
 <div class="container-fluid">

@@ -20,10 +20,16 @@ from flask import current_app
 @main.route('/')
 def index():
     photo_path = os.getcwd() + '/static/images/photo-1.jpeg'
+    # if current_user.is_authenticated:
+    #     return redirect(url_for('main.products'))
+    return render_template('index.html',image=photo_path)
+
+@main.route('/home')
+def home():
+    photo_path = os.getcwd() + '/static/images/photo-1.jpeg'
     if current_user.is_authenticated:
         return redirect(url_for('main.products'))
     return render_template('index.html',image=photo_path)
-
 
 @main.route('/user/<username>')
 def user(username):
