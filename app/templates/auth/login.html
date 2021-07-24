@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block content %}
+{% block page_content %}
 <!-- <div class="backgroundlogin" > -->
 <div class="container">
 	{% for message in get_flashed_messages() %}
@@ -32,6 +32,6 @@
 </div>
 
 <!-- </div> -->
-{% endblock content %}
+{% endblock page_content %}
 
 
