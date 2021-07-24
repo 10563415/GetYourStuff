@@ -9,11 +9,11 @@ class Config:
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
     MAIL_USE_TLS = os.environ.get('MAIL_USE_SSL', 'True') in ['True', 'on', '1']
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME','10563415SA@gmail.com')
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME','10563415sa@gmail.com')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD','dwckdclvrrkmynsj')
     APP_MAIL_SUBJECT_PREFIX = '[BuyYourStuffHere]'
-    APP_MAIL_SENDER = os.environ.get('APP_MAIL_SENDER','10563415SA@gmail.com')
-    APP_ADMIN = os.environ.get('APP_ADMIN') or '10563415SA@gmail.com'
+    APP_MAIL_SENDER = os.environ.get('APP_MAIL_SENDER','10563415sa@gmail.com')
+    APP_ADMIN = os.environ.get('APP_ADMIN') or '10563415sa@gmail.com'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DOMAIN = os.environ.get('DOMAIN','http://localhost:2525')
     STRIPE_KEY = os.environ.get('STRIPE_KEY','sk_test_51JFcO9LOIGzLr6ivCrOjnOHoFJuJr9JSwqGD9Q6FZlVRB7ZZc90IyouZe3c8ffHdbdwimqtXQqQ60EfDHGz7NwLo00vVXhgvko')
