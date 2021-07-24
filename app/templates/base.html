@@ -22,12 +22,6 @@
             <a class="navbar-brand" href="{{ url_for('main.index') }}">BuyYourStuffHere</a>
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="{{url_for('main.about')}}">About Us</a></li>
-            </ul>
-            <ul class="nav navbar-nav">
-                <li><a href="{{url_for('main.contact')}}">Contact Us</a></li>
-            </ul>
             {% if current_user.is_authenticated %}
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('main.home') }}">Home</a></li>
@@ -35,9 +29,14 @@
             {% endif %}
 
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{url_for('main.about')}}">About Us</a></li>
+                <li><a href="{{url_for('main.contact')}}">Contact Us</a></li>
+
+
                 {% if current_user.is_authenticated %}
 
-                    <li><a href="{{ url_for('main.get_cart',id=current_user.id)}}" class="navbar-right"><img class="bi bi-cart" src="{{ url_for('static', filename='cart.svg') }}">Cart</li>
+                <li><a href="{{ url_for('main.get_cart',id=current_user.id)}}" class="navbar-right"><img class=""
+                            src="{{ url_for('static', filename='cart.svg') }}">Cart</li>
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -72,6 +71,23 @@
 
     {% block page_content %}{% endblock %}
 </div>
+
+<div style="min-height: 20px;">
+
+
+</div>
+
+{% block footer %}
+
+<footer class="footer navbar-default navbar-fixed-bottom" role="contentinfo">
+    <div class="container">
+        <p>
+            BuyYourStuffHere &copy 2021 All Rights Reserved.
+        </p>
+    </div>
+</footer>
+{% endblock footer %}
+
 {% endblock %}
 
 {% block scripts %}

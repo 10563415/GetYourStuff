@@ -60,6 +60,20 @@
     border-width: 1px;
     padding: 5px;
   }
+
+  .loginbox{
+    width:40%;
+    float:center;
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: ridge;
+    border-width: 1px;
+    padding: 15px 5px 15px 5px;
+
+  }
   
   .cart-left{
     float:left;
@@ -101,6 +115,10 @@ max-width: 50%;
   float:left;
 }
 
+.logincenter{
+  width: 60%; 
+  padding-top: 10%;
+}
 
 .carousel-inner > .item > img {
   display: block;
@@ -112,8 +130,7 @@ max-width: 50%;
 
   .backgroundlogin{
     /* Add image */
-    background-image: url(
-"https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg");
+    background-image: url("https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg");
 
     /* Make image center */
     background-position: center center;
@@ -125,12 +142,11 @@ max-width: 50%;
     background-repeat: no-repeat;
 
     /* Set background size auto */
-    background-size: auto;
 
-    background-size: contain;
+
+    background-size: cover;
 
   }
-
 
 
 @media (max-width: 900px) {
@@ -215,6 +231,12 @@ max-width: 50%;
             width:100%;
             padding:10px;
             float:inherit;
+          }
+          .loginbox{
+            width:100%;
+            padding:10px;
+            float:inherit;
+
           }
 
 }
