@@ -7,13 +7,12 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 import hashlib
 
+#Permissions defined as per usage of the app
 class Permission:
-    FOLLOW = 1
-    COMMENT = 2
-    WRITE = 4
-    MODERATE = 8
-    ADMIN = 16
+    USER = 0
+    ADMIN = 1
 
+#The insert_roles is used for initial set-up of the roles table with default permission and elevated permissions as defined in the permissions class above
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
@@ -27,13 +26,12 @@ class Role(db.Model):
         if self.permissions is None:
             self.permissions = 0
 
+#used for initial setup of roles tables during db init
     @staticmethod
     def insert_roles():
         roles = {
-            'User': [Permission.WRITE],
-            'Moderator': [Permission.WRITE, Permission.MODERATE],
-            'Administrator': [Permission.WRITE, Permission.MODERATE,
-                              Permission.ADMIN],
+            'User': [Permission.USER],
+            'Administrator': [Permission.ADMIN,Permission.USER],
         }
         default_role = 'User'
         for r in roles:
@@ -58,8 +56,9 @@ class Role(db.Model):
     def reset_permissions(self):
         self.permissions = 0
 
+#checks if the permissions of the user matches with that defined for the role in roles table 
     def has_permission(self, perm):
-        return self.permissions & perm == perm
+        return self.permissions == perm
 
     def __repr__(self):
         return '<Role %r>' % self.name
@@ -88,6 +87,8 @@ class User(UserMixin, db.Model):
     carts = db.relationship('Cart', backref='User', lazy='dynamic') #TODO May create issue
     orders = db.relationship('Order', backref='User', lazy='dynamic') #TODO May create issue
 
+
+#initialization of an user and assignment of role based on the email id. This role contains permissions defined in roles table 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
