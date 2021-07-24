@@ -33,7 +33,8 @@ def home():
 
 @main.route('/about')
 def about():
-    return render_template('about.html')
+    _pic =  '/static/pic.JPG'
+    return render_template('about.html',pic=_pic)
 
 
 @main.route('/contact')
