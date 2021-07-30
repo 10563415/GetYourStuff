@@ -16,6 +16,8 @@ csrf = CSRFProtect()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
+
+#This is used as the factory function for instantiation of the opplication object 
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])

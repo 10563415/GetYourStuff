@@ -15,5 +15,6 @@ def permission_required(permission):
     return decorator
 
 
+#This function is used for checking admin permissions of a user, based on this - admin views are accessible
 def admin_required(f):
     return permission_required(Permission.ADMIN)(f)

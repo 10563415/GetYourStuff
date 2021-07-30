@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from ..models import User
 
-
+#Forms used for creating html components of login web page
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
                                              Email()])
@@ -19,6 +19,8 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Log In')
 
 
+
+#Forms used for creating html components of registration web page
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
                                              Email()])
@@ -43,6 +45,7 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Username already in use.')
 
 
+#Forms used for creating html components of change password web page
 class ChangePasswordForm(FlaskForm):
     old_password = PasswordField('Old password', validators=[DataRequired()])
     password = PasswordField('New password', validators=[
@@ -52,12 +55,16 @@ class ChangePasswordForm(FlaskForm):
     submit = SubmitField('Update Password')
 
 
+
+#Forms used for creating html components of reset password request web page
 class PasswordResetRequestForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
                                              Email()])
     submit = SubmitField('Reset Password')
 
 
+
+#Forms used for creating html components of password reset web page
 class PasswordResetForm(FlaskForm):
     password = PasswordField('New Password', validators=[
         DataRequired(), EqualTo('password2', message='Passwords must match.'),Regexp('^\w+$',0, message='Password must contain only letters, numbers or underscore'),Length(min=5, max=25, message="Username must be betwen 5 & 25 characters")])
@@ -65,6 +72,7 @@ class PasswordResetForm(FlaskForm):
     submit = SubmitField('Reset Password')
 
 
+#Forms used for creating html components of change email web page
 class ChangeEmailForm(FlaskForm):
     email = StringField('New Email', validators=[DataRequired(), Length(1, 64),
                                                  Email()])

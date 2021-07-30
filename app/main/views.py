@@ -17,12 +17,22 @@ from urllib.request import urlopen
 from flask import current_app
 
 
+
+#Contains all the view function related to application functionalities 
+
+
+#index view function - gets executed when the application launches
+
 @main.route('/')
 def index():
     photo_path = os.getcwd() + '/static/images/photo-1.jpeg'
     # if current_user.is_authenticated:
     #     return redirect(url_for('main.products'))
     return render_template('index.html',image=photo_path)
+
+
+
+#home view function - gets executed when user is authenticated and lands into application to see all the products
 
 @main.route('/home')
 def home():
@@ -31,11 +41,17 @@ def home():
         return redirect(url_for('main.products'))
     return render_template('index.html',image=photo_path)
 
+
+#about view function
+
 @main.route('/about')
 def about():
     _pic =  '/static/pic.JPG'
     return render_template('about.html',pic=_pic)
 
+
+
+#contact view function
 
 @main.route('/contact')
 def contact():
@@ -97,6 +113,9 @@ def edit_profile_admin(id):
     return render_template('edit_profile.html', form=form, user=user)
 
 
+
+#products view function returns all the products
+
 @main.route('/products', methods=['GET', 'POST'])
 @login_required
 def products():
@@ -105,6 +124,8 @@ def products():
         data = json.load(json_file)
     return render_template('products.html', items = data)
 
+
+#item:id view function returns details of a single product
 
 @main.route('/item/<item_id>', methods=['GET', 'POST'])
 @login_required
@@ -119,6 +140,7 @@ def item(item_id):
     return render_template('product.html', item = product)
 
 
+#add-to-cart view function that is executed when a product is added to cart
 @main.route('/add_to_cart/<item_id>', methods=['GET', 'POST'])
 @login_required
 def add_to_cart(item_id):
@@ -181,7 +203,7 @@ def post_request(uri,data):
     return response
 
 
-
+#get-cart view function that is executed when a user navigates to cart to view the products added for checkout
 @main.route('/get_cart', methods=['GET'])
 @login_required
 def get_cart():
@@ -195,6 +217,8 @@ def get_cart():
 
     return render_template('cart.html',items = _cart,total = _total, totalcost = _totalcost)
 
+
+#update-cart view function that is executed when quantity of a product already added to cart is modified
 
 @main.route('/update_cart/<item_id>/<item_attr>', methods=['POST'])
 @login_required
@@ -211,6 +235,8 @@ def update_cart(item_id,item_attr):
     return redirect(url_for('main.get_cart'))
 
 
+#remove-from-cart view function that is executed when a product already added to cart is removed
+
 @main.route('/remove_from_cart/<item_id>', methods=['GET'])
 @login_required
 def remove_from_cart(item_id):
@@ -224,11 +250,17 @@ def remove_from_cart(item_id):
     return redirect(url_for('main.get_cart'))
 
 
+
+#checkout view function that is executed when products already added to cart are ready to be checked-out
+
 @main.route('/checkout/<count>/<cost>', methods=['GET'])
 @login_required
 def checkout(count,cost):
     return render_template('checkout.html',count = count, totalcost = cost)
 
+
+
+#processorder view function that is executed when user is ready to process the payment
 
 @main.route('/processorder/<int:count>/<float:totalcost>', methods=['POST'])
 @login_required
@@ -308,6 +340,8 @@ def processorder(count,totalcost):
     return redirect(checkout_session.url, code=303)
 
 
+
+#get_orders view function is executed when user clicks on orders tab on the navigation panel
 @main.route('/get_orders', methods=['GET'])
 @login_required
 # @admin_required
@@ -338,6 +372,8 @@ def cancel():
     return render_template('cancel.html')
 
 
+
+#TODO: To be implemented if time permits
 @main.route('/approve_order/<order_id>', methods=['GET'])
 @login_required
 def approve_order(order_id):

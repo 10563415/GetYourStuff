@@ -9,6 +9,8 @@ def send_async_email(app, msg):
         mail.send(msg)
 
 
+
+#This method is used for sending emails from various functions of the application 
 def send_email(to, subject, template, **kwargs):
     app = current_app._get_current_object()
     msg = Message(app.config['APP_MAIL_SUBJECT_PREFIX'] + ' ' + subject,

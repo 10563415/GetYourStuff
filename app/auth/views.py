@@ -9,6 +9,9 @@ from .forms import LoginForm, RegistrationForm, ChangePasswordForm,\
 import os
 
 
+#Contains all the view function related to authentication and user functionalities like user setup
+
+#This function gets executed before any of the other view functions are accessed
 @auth.before_app_request
 def before_request():
     if current_user.is_authenticated:
@@ -27,6 +30,8 @@ def unconfirmed():
     return render_template('auth/unconfirmed.html')
 
 
+
+#login view function - gets executed when login request is made from the client
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -46,6 +51,9 @@ def login():
     return render_template('auth/login.html', form=form,image=photo_path )
 
 
+
+#logout view function - gets executed when logout request is made from the client
+
 @auth.route('/logout')
 @login_required
 def logout():
@@ -53,6 +61,9 @@ def logout():
     flash('You have been logged out.')
     return render_template('logout.html')
 
+
+
+#register view function - gets executed when new registration request is made from the client
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -71,7 +82,7 @@ def register():
     return render_template('auth/register.html', form=form)
 
 
-#TODO: Add the rule to update role by cheking the email id as admin
+
 @auth.route('/confirm/<token>')
 @login_required
 def confirm(token):
@@ -84,7 +95,7 @@ def confirm(token):
         flash('The confirmation link is invalid or has expired.')
     return redirect(url_for('main.index'))
 
-#TODO: Add the rule to update role by cheking the email id as admin
+
 @auth.route('/confirm')
 @login_required
 def resend_confirmation():
@@ -94,6 +105,9 @@ def resend_confirmation():
     flash('A new confirmation email has been sent to you by email.')
     return redirect(url_for('main.index'))
 
+
+
+#change-password view function - gets executed when change current password request is made from the client
 
 @auth.route('/change-password', methods=['GET', 'POST'])
 @login_required
@@ -110,6 +124,8 @@ def change_password():
             flash('Invalid password.')
     return render_template("auth/change_password.html", form=form)
 
+
+#reset view function - gets executed when password reset request is made from the client
 
 @auth.route('/reset', methods=['GET', 'POST'])
 def password_reset_request():
@@ -143,6 +159,9 @@ def password_reset(token):
             return redirect(url_for('main.index'))
     return render_template('auth/reset_password.html', form=form)
 
+
+
+#change email view function - gets executed when email change request is made from the client
 
 @auth.route('/change_email', methods=['GET', 'POST'])
 @login_required

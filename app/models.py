@@ -68,6 +68,8 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+
+#User model that has relations defined for orders and cart tables
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -84,8 +86,8 @@ class User(UserMixin, db.Model):
     avatar_hash = db.Column(db.String(32))
     cart_id = db.Column(db.Integer)
     item_count = db.Column(db.Integer)
-    carts = db.relationship('Cart', backref='User', lazy='dynamic') #TODO May create issue
-    orders = db.relationship('Order', backref='User', lazy='dynamic') #TODO May create issue
+    carts = db.relationship('Cart', backref='User', lazy='dynamic') 
+    orders = db.relationship('Order', backref='User', lazy='dynamic') 
 
 
 #initialization of an user and assignment of role based on the email id. This role contains permissions defined in roles table 
@@ -199,6 +201,8 @@ class AnonymousUser(AnonymousUserMixin):
 
 login_manager.anonymous_user = AnonymousUser
 
+
+#Cart is used to hold items added to cart
 class Cart(db.Model):
     __tablename__ = 'carts'
     id = db.Column(db.Integer, primary_key=True)
@@ -224,6 +228,8 @@ class Product:
         self.price = price
 
 
+
+#Order model that is used to store orders placed successfully
 class Order(db.Model):
     __tablename__ = 'orders'
     order_id = db.Column(db.Integer, primary_key=True)

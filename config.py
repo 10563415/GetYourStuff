@@ -2,6 +2,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
+#All the configs are fetched from environment variables, if not found are assigned the default values 
 class Config:
     
     
@@ -27,6 +28,8 @@ class Config:
         pass
 
 
+
+#Configuration for each environment is specified here
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
@@ -47,6 +50,8 @@ class ProductionConfig(Config):
     def init_app(cls, app):
         Config.init_app(app)
 
+
+#Configuration for Heroku deployment 
 class HerokuConfig(ProductionConfig):
     SSL_REDIRECT = True if os.environ.get('DYNO') else False
 
