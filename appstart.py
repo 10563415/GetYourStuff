@@ -30,3 +30,4 @@ def deploy():
 
     # create or update user roles
     Role.insert_roles()
+    
